@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/physicsTestingGround.unity
+  isLoaded: 1
+  isActive: 1
