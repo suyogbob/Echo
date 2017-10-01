@@ -2,19 +2,44 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-
+	private Rigidbody2D rb2d;
+	private Collider2D groundSensor;
+	public float speedInitial;
+	public float jumpStrength;
+	private bool isGrounded;
+	private float speed;
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("Starting Ground Sensor");
+		rb2d = GetComponent<Rigidbody2D> ();
+		groundSensor = GameObject.Find("Ground_Sensor").GetComponent<Collider2D>();
+		speed = speedInitial;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	}
-	void OnCollisionEnter2D(Collision2D coll){
-		if (coll.gameObject.tag == "Platforms") {
-			Debug.Log ("Touched Platform");
+		isGrounded = (groundSensor.IsTouchingLayers () ? true : false);
+		if (Input.GetKey (KeyCode.LeftShift)) {
+			speed = 5 * speedInitial;
+		} else {
+			speed = speedInitial;
+		}
+		if (Input.GetKey (KeyCode.D) && isGrounded) {
+			Vector2 move = new Vector2 (1, 0)*speed;
+			rb2d.AddForce (move);
+		}
+		if (Input.GetKey(KeyCode.A) && isGrounded) {
+			Vector2 move = new Vector2 (-1, 0)*speed;
+			rb2d.AddForce (move);
+		}
+		if (Input.GetKey (KeyCode.S)) {
+			Vector2 move = new Vector2 (0, -3)*speed;
+			rb2d.AddForce (move);
+		}
+		if (Input.GetKeyDown (KeyCode.Space) && isGrounded) {
+			Vector2 move = new Vector2 (0, 1)*jumpStrength;
+			rb2d.AddForce (move);
 		}
 	}
+
 
 }
