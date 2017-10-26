@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () {
 		isGrounded = (groundSensor.IsTouchingLayers () ? true : false);
 		if (Input.GetKey (KeyCode.LeftShift)) {
-			speed = 5 * speedInitial;
+			speed = 2 * speedInitial;
 		} else {
 			speed = speedInitial;
 		}
