@@ -46,6 +46,7 @@ public class Movement : MonoBehaviour {
 			Vector2 move = new Vector2 (0, 1)*jumpStrength;
 			rb2d.AddForce (move);
 		}
+
 	}
 
 
