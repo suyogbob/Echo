@@ -23,14 +23,11 @@ public class Movement : MonoBehaviour {
 		} else {
 			speed = speedInitial;
 		}
-		if (Input.GetKey (KeyCode.D)) {
-			Vector2 move = new Vector2 (1, 0)*speed;
-			rb2d.AddForce (move);
-		}
-		if (Input.GetKey(KeyCode.A)) {
-			Vector2 move = new Vector2 (-1, 0)*speed;
-			rb2d.AddForce (move);
-		}
+		float moveHorizontal = Input.GetAxis ("Horizontal");
+
+		Vector2 movement = new Vector2 (moveHorizontal*speed, rb2d.velocity.y);
+		rb2d.velocity = (movement);
+		//rb2d.velocity = movement * speed;
 		if (Input.GetKey (KeyCode.S)) {
 			Vector2 move = new Vector2 (0, -3)*speed;
 			rb2d.AddForce (move);
