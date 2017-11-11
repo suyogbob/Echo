@@ -16,14 +16,7 @@ public class Movement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	// Use update to change values or change transforms
 	void Update () {
-		
-	}
-
-	// FixedUpdate is called with a set time interval
-	// Use it for physics changes and changes to rigidbodies
-	void FixedUpdate () {
 		isGrounded = (groundSensor.IsTouchingLayers () ? true : false);
 		if (Input.GetKey (KeyCode.LeftShift)) {
 			speed = 2 * speedInitial;
