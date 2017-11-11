@@ -23,11 +23,11 @@ public class Movement : MonoBehaviour {
 		} else {
 			speed = speedInitial;
 		}
-		if (Input.GetKey (KeyCode.D) && isGrounded) {
+		if (Input.GetKey (KeyCode.D)) {
 			Vector2 move = new Vector2 (1, 0)*speed;
 			rb2d.AddForce (move);
 		}
-		if (Input.GetKey(KeyCode.A) && isGrounded) {
+		if (Input.GetKey(KeyCode.A)) {
 			Vector2 move = new Vector2 (-1, 0)*speed;
 			rb2d.AddForce (move);
 		}
