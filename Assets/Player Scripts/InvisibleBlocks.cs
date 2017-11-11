@@ -34,7 +34,7 @@ public class InvisibleBlocks : MonoBehaviour {
 		}
 
 		if (timeSinceUse > 1f && playerLight.intensity == 5f) {
-			playerLight.intensity = 0.4f;
+			playerLight.intensity = 0.0f;
 		}
 	}
 
