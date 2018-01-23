@@ -50,9 +50,9 @@ public class Movement : MonoBehaviour {
 	}
 	void OnTriggerStay2D(Collider2D col) {
         Rigidbody2D box = col.attachedRigidbody;
-		Debug.Log ("platform right edge: " + (col.bounds.center.x + col.bounds.extents.x));
-		Debug.Log ("player left edge: " + (c2d.bounds.center.x - c2d.bounds.extents.x));
-		Debug.Log ("\n");
+		//Debug.Log ("platform right edge: " + (col.bounds.center.x + col.bounds.extents.x));
+		//Debug.Log ("player left edge: " + (c2d.bounds.center.x - c2d.bounds.extents.x));
+		//Debug.Log ("\n");
         if (col.bounds.center.x + col.bounds.extents.x > c2d.bounds.center.x - c2d.bounds.extents.x &&
             col.bounds.center.x - col.bounds.extents.x < c2d.bounds.center.x + c2d.bounds.extents.x) {
 			isGrounded = true;
