@@ -12,7 +12,6 @@ public class Powers : MonoBehaviour {
         {
 			while (firstBall != null) 
 			{
-				Debug.Log ("test");
 				GameObject nextBall = firstBall.GetComponent<EchoBallConstructor> ().otherNeighbor;
 				Destroy (firstBall);
 				firstBall = nextBall;
