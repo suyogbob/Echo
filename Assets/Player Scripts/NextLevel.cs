@@ -20,7 +20,12 @@ public class NextLevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void OnTriggerEnter2D(Collider2D diamondCollider) {
-		SceneManager.LoadScene (levelToLoad);
+        //Check for a match with the specified name on any GameObject that collides with your GameObject
+        if (diamondCollider.gameObject.name == "Player")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            SceneManager.LoadScene(levelToLoad);
+        }
 	}
 	void Update () {
 
