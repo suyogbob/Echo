@@ -7,9 +7,16 @@ public class Powers : MonoBehaviour {
     public int numberOfBalls;
     public float velocityScalar;
 	public GameObject firstBall;
+	public float cooldown = 0;
     void Update () {
+		if (cooldown > 0)
+		{
+			cooldown -= Time.deltaTime;
+			return;
+		}
         if (Input.GetKeyDown(KeyCode.O))
         {
+			cooldown = 2;
 			while (firstBall != null) 
 			{
 				GameObject nextBall = firstBall.GetComponent<EchoBallConstructor> ().otherNeighbor;
