@@ -46,14 +46,14 @@ public class Movement : MonoBehaviour {
 			isGrounded = true;
 	}
 
-	void OnTriggerStay2D(Collider2D col) {
+	/*void OnTriggerStay2D(Collider2D col) {
         Rigidbody2D box = col.attachedRigidbody;
 		//Debug.Log ("platform right edge: " + (col.bounds.center.x + col.bounds.extents.x));
 		//Debug.Log ("player left edge: " + (c2d.bounds.center.x - c2d.bounds.extents.x));
         //Debug.Log("player bottom edge: " + (c2d.bounds.center.y - c2d.bounds.extents.y));
         //Debug.Log("platform top edge: " + (col.bounds.center.y + col.bounds.extents.y));
 		//Debug.Log ("\n");
-        /*if (col.bounds.center.x + col.bounds.extents.x > c2d.bounds.center.x - c2d.bounds.extents.x &&
+        if (col.bounds.center.x + col.bounds.extents.x > c2d.bounds.center.x - c2d.bounds.extents.x &&
             col.bounds.center.x - col.bounds.extents.x < c2d.bounds.center.x + c2d.bounds.extents.x &&
             (col.bounds.center.y + col.bounds.extents.y / 2) < c2d.bounds.center.y - c2d.bounds.extents.y) {
 			isGrounded = true;
@@ -61,8 +61,8 @@ public class Movement : MonoBehaviour {
             Vector2 move = new Vector2(0, -10);
             rb2d.velocity = (move);
             isGrounded = false;
-        }*/
-	}
+        }
+	}*/
 	void OnTriggerExit2D(Collider2D col) {
 		isGrounded = false;
 	}
