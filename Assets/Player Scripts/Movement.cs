@@ -57,7 +57,7 @@ public class Movement : MonoBehaviour {
             col.bounds.center.x - col.bounds.extents.x < c2d.bounds.center.x + c2d.bounds.extents.x) {
 			isGrounded = true;
         } else {
-            Vector2 move = new Vector2(0, -1) * speed;
+            Vector2 move = new Vector2(0, -10);
             rb2d.velocity = (move);
             isGrounded = false;
         }
