@@ -76,12 +76,17 @@ public class Powers : MonoBehaviour {
                     }
                     activePower = Power.Movement;
                     break;
-                case Power.Movement:
-                    Debug.Log("Swapping to Circular");
-                    //Stop Horizontal Movement
-                    Vector2 movement = new Vector2(0, rb2d.velocity.y);
-                    rb2d.velocity = (movement);
-                    activePower = Power.Circular;
+                case Power.Movement:    
+                    //Only Swap If Stopped
+                    if(rb2d.velocity.x == 0 && rb2d.velocity.y == 0)
+                    {
+                        Debug.Log("Swapping to Circular");
+                        activePower = Power.Circular;
+                    }
+                    else
+                    {
+                        Debug.Log("Can't Swap If Moving");
+                    }
                     break;
             }
         }
@@ -111,11 +116,16 @@ public class Powers : MonoBehaviour {
                     activePower = Power.Circular;
                     break;
                 case Power.Movement:
-                    Debug.Log("Swapping to Flashlight");
-                    //Stop Horizontal Movement
-                    Vector2 movement = new Vector2(0, rb2d.velocity.y);
-                    rb2d.velocity = (movement);
-                    activePower = Power.Flashlight;
+
+                    //Only Swap If Stopped
+                    if (rb2d.velocity.x == 0 && rb2d.velocity.y == 0)
+                    {
+                        Debug.Log("Swapping to Flashlight");
+                        activePower = Power.Flashlight;
+                    }
+                    else {
+                        Debug.Log("Can't Swap If Moving");
+                    }
                     break;
             }
         }
