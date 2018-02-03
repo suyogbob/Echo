@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Powers : MonoBehaviour {
     //GENERAL POWER VARIABLES
-    public enum Power { Circular, Movement, Flashlight };
+    public enum Power { Circular, Movement, Flashlight, Ray };
     public Power activePower;
     //CIRCULAR VARIABLES
     public Object ball;
@@ -28,6 +28,12 @@ public class Powers : MonoBehaviour {
     private SpriteRenderer[] ren;
     public Sprite rusty;
     public Sprite none;
+	//RAY VARIABLES
+	public Object rayBall;
+	private Transform pointerTransform;
+	private SpriteRenderer pointerRenderer;
+	public Sprite pointer_sprite;
+	public float angle = 0;
     //GENERAL POWER SCRIPTS
     void Start() {
         //General Power Start Up
@@ -48,6 +54,9 @@ public class Powers : MonoBehaviour {
         {
             ren[i] = invis[i].GetComponent<SpriteRenderer>();
         }
+		//Ray startup
+		pointerRenderer = GameObject.Find("pointer").GetComponent<SpriteRenderer>();
+		pointerTransform = GameObject.Find("pointer").GetComponent<Transform>();
 
     }
     void Update() {
@@ -66,16 +75,28 @@ public class Powers : MonoBehaviour {
                     }
                     activePower = Power.Flashlight;
                     break;
-                case Power.Flashlight:
-                    Debug.Log("Swapping to Movement");
+			case Power.Flashlight:
+				Debug.Log ("Swapping to Ray");
                     //RESET FLASHLIGH
-                    playerLight.intensity = 0.0f;
-                    for (int i = 0; i < invis.Length; i++)
-                    {
-                        ren[i].sprite = none;
-                    }
-                    activePower = Power.Movement;
+					playerLight.intensity = 0.0f;
+					for (int i = 0; i < invis.Length; i++) {
+						ren [i].sprite = none;
+					}
+					activePower = Power.Ray;
+					pointerRenderer.sprite = pointer_sprite;
                     break;
+				case Power.Ray:
+					Debug.Log ("Swappinng to Movement");
+					//DESTROY ALL THE BALLS
+					while (firstBall != null)
+					{
+						GameObject nextBall = firstBall.GetComponent<RayBallConstructor>().otherNeighbor;
+						Destroy(firstBall);
+						firstBall = nextBall;
+					}
+					pointerRenderer.sprite =none;     
+					activePower = Power.Movement;
+					break;
                 case Power.Movement:
                     Debug.Log("Swapping to Circular");
                     //Stop Horizontal Movement
@@ -110,12 +131,24 @@ public class Powers : MonoBehaviour {
                     }
                     activePower = Power.Circular;
                     break;
-                case Power.Movement:
-                    Debug.Log("Swapping to Flashlight");
-                    //Stop Horizontal Movement
-                    Vector2 movement = new Vector2(0, rb2d.velocity.y);
-                    rb2d.velocity = (movement);
-                    activePower = Power.Flashlight;
+				case Power.Ray:
+					Debug.Log ("Swapping to Flashlight");
+						//DESTROY ALL THE BALLS
+					while (firstBall != null) {
+						GameObject nextBall = firstBall.GetComponent<RayBallConstructor> ().otherNeighbor;
+						Destroy (firstBall);
+						firstBall = nextBall;
+					}
+					activePower = Power.Flashlight;
+					pointerRenderer.sprite = none;
+					break;
+				case Power.Movement:
+					Debug.Log ("Swapping to Ray");
+	                    //Stop Horizontal Movement
+					Vector2 movement = new Vector2 (0, rb2d.velocity.y);
+					rb2d.velocity = (movement);
+					activePower = Power.Ray;
+					pointerRenderer.sprite = pointer_sprite;
                     break;
             }
         }
@@ -128,6 +161,9 @@ public class Powers : MonoBehaviour {
                 case Power.Flashlight:
                     invisible();
                     break;
+				case Power.Ray:
+					rayPower ();
+					break;
                 case Power.Movement:
                     movement();
                     break;
@@ -146,8 +182,8 @@ public class Powers : MonoBehaviour {
         {
             speed = speedInitial;
         }
-        float moveHorizontal = Input.GetAxis("Horizontal");
 
+        float moveHorizontal = Input.GetAxis("Horizontal");
         Vector2 movement = new Vector2(moveHorizontal * speed, rb2d.velocity.y);
         rb2d.velocity = (movement);
         //rb2d.velocity = movement * speed;
@@ -191,7 +227,7 @@ public class Powers : MonoBehaviour {
     void OnTriggerExit2D(Collider2D col)
     {
         isGrounded = false;
-    }
+	}
 
 //CIRCULAR SCRIPTS
     void circularEcho () {
@@ -272,6 +308,80 @@ public class Powers : MonoBehaviour {
 
         timeSinceUse = 0f;
     }
+
+	//RAY SCRIPTS
+	void rayPower()
+	{
+		if (Input.GetKeyDown (KeyCode.A)) 
+		{
+			angle += Mathf.PI / 12;
+			if (angle > Mathf.PI * 2)
+				angle -= (Mathf.PI * 2);
+			Vector3 v = pointerTransform.position;
+			v.x = Mathf.Cos (angle) * 3 + player.transform.position.x;
+			v.y = Mathf.Sin (angle) * 3 + player.transform.position.y;
+			pointerTransform.position = v;
+			pointerTransform.Rotate (new Vector3 (0, 0, 15));
+		}
+		if (Input.GetKeyDown (KeyCode.D)) 
+		{
+			angle -= Mathf.PI / 12;
+			if (angle < 0)
+				angle += (Mathf.PI * 2);
+			
+			Vector3 v = pointerTransform.position;
+			v.x = Mathf.Cos (angle) * 3 + player.transform.position.x;
+			v.y = Mathf.Sin (angle) * 3 + player.transform.position.y;
+			pointerTransform.position = v;
+			pointerTransform.Rotate (new Vector3 (0, 0, -15));
+
+		}
+		if (cooldown > 0)
+		{
+			cooldown -= Time.deltaTime;
+			return;
+		}
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			cooldown = 5;
+			while (firstBall != null) 
+			{
+				GameObject nextBall = firstBall.GetComponent<EchoBallConstructor> ().otherNeighbor;
+				Destroy (firstBall);
+				firstBall = nextBall;
+			}
+
+			Transform parent = GetComponent<Transform>();
+			Quaternion none = new Quaternion();
+			GameObject previousBall = null;
+
+			float radStart = angle - Mathf.PI / 24;
+			float radEnd = angle + Mathf.PI / 24;
+			float radD = Mathf.PI * 2 / numberOfBalls;
+
+			for (float rad = radStart; rad < radEnd; rad += radD)
+			{
+				Vector2 offset = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+				GameObject theBall = (GameObject)Instantiate(rayBall, parent.position, none);
+				Rigidbody2D rgbd = theBall.GetComponent<Rigidbody2D>();
+				if (rad == radStart) {
+					firstBall = theBall;
+				}
+				else
+				{
+					if (rad >= radEnd)
+					{
+						firstBall.GetComponent<RayBallConstructor>().neighbor = theBall;
+						theBall.GetComponent<RayBallConstructor>().otherNeighbor = firstBall;
+					}
+					theBall.GetComponent<RayBallConstructor>().neighbor = previousBall;
+					previousBall.GetComponent<RayBallConstructor>().otherNeighbor = theBall;
+				}
+				rgbd.velocity = offset*velocityScalar;
+				previousBall = theBall;
+			}
+		}
+	}
 }
 
 
