@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
+    
 	private Rigidbody2D rb2d;
 	private CircleCollider2D c2d;
 	private Collider2D groundSensor;
@@ -9,6 +10,9 @@ public class Movement : MonoBehaviour {
 	public float jumpStrength;
 	public bool isGrounded;
 	private float speed;
+    private int platformsIndex;
+    private GameObject platform;
+
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D> ();
@@ -16,6 +20,9 @@ public class Movement : MonoBehaviour {
 		groundSensor = GameObject.Find("Ground_Sensor").GetComponent<Collider2D>();
 		speed = speedInitial;
 		isGrounded = true;
+        platformsIndex = LayerMask.NameToLayer("Platforms");
+        Debug.Log("Set index");
+        Debug.Log(platformsIndex);
 	}
 	
 	// Update is called once per frame
@@ -43,10 +50,14 @@ public class Movement : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-			isGrounded = true;
+        platform = col.transform.parent.gameObject;
+        if(platform.layer == platformsIndex) {
+            isGrounded = true;
+            Debug.Log("Is Grounded");
+        }	
 	}
 
-	/*void OnTriggerStay2D(Collider2D col) {
+    /*void OnTriggerStay2D(Collider2D col) {
         Rigidbody2D box = col.attachedRigidbody;
 		//Debug.Log ("platform right edge: " + (col.bounds.center.x + col.bounds.extents.x));
 		//Debug.Log ("player left edge: " + (c2d.bounds.center.x - c2d.bounds.extents.x));
@@ -63,9 +74,11 @@ public class Movement : MonoBehaviour {
             isGrounded = false;
         }
 	}*/
-	void OnTriggerExit2D(Collider2D col) {
-		isGrounded = false;
-	}
-
-
+    void OnTriggerExit2D(Collider2D col) {
+        platform = col.transform.parent.gameObject;
+        if (platform.layer == platformsIndex) {
+            isGrounded = false;
+            Debug.Log("Not Grounded");
+        }
+    }
 }

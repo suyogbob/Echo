@@ -20,6 +20,8 @@ public class Powers : MonoBehaviour {
 	public float jumpStrength;//150
 	public bool isGrounded;
 	private float speed;
+    private int platformsIndex;
+    private GameObject platform;
 	//INVISIBLE BLOCKS VARIABLES
 	public GameObject[] invis;
 	public GameObject player;
@@ -44,6 +46,8 @@ public class Powers : MonoBehaviour {
 		groundSensor = GameObject.Find("Ground_Sensor").GetComponent<Collider2D>();
 		speed = speedInitial;
 		isGrounded = true;
+        // Find platforms layer
+        platformsIndex = LayerMask.NameToLayer("Platforms");
 		//Invisible Start Up
 		playerLight = GameObject.Find("Point light").GetComponent<Light>();
 		player = GameObject.Find("Player");
@@ -201,10 +205,14 @@ public class Powers : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter2D(Collider2D col)
-	{
-		isGrounded = true;
-	}
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        platform = col.gameObject;
+        if (platform.layer == platformsIndex)
+        {
+            isGrounded = true;
+        }
+    }
 
 	void OnTriggerStay2D(Collider2D col)
 	{
@@ -224,10 +232,15 @@ public class Powers : MonoBehaviour {
             isGrounded = false;
         }*/
 	}
-	void OnTriggerExit2D(Collider2D col)
-	{
-		isGrounded = false;
-	}
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        platform = col.gameObject;
+        if (platform.layer == platformsIndex)
+        {
+            isGrounded = false;
+        }
+    }
 
 	//CIRCULAR SCRIPTS
 	void circularEcho () {
