@@ -63,117 +63,142 @@ public class Powers : MonoBehaviour {
 		pointerTransform = GameObject.Find("pointer").GetComponent<Transform>();
 
 	}
-	void Update() {
-		if (Input.GetKeyDown(KeyCode.Q))
-		{
-			switch (activePower)
-			{
-			case Power.Circular:
-				Debug.Log("Swapping to Flashlight");
-				//DESTROY ALL THE BALLS
-				while (firstBall != null)
-				{
-					GameObject nextBall = firstBall.GetComponent<EchoBallConstructor>().otherNeighbor;
-					Destroy(firstBall);
-					firstBall = nextBall;
-				}
-				activePower = Power.Flashlight;
-				break;
-			case Power.Flashlight:
-				Debug.Log ("Swapping to Ray");
-				//RESET FLASHLIGH
-				playerLight.intensity = 0.0f;
-				for (int i = 0; i < invis.Length; i++) {
-					ren [i].sprite = none;
-				}
-				activePower = Power.Ray;
-				pointerRenderer.sprite = pointer_sprite;
-				break;
-			case Power.Ray:
-				Debug.Log ("Swappinng to Movement");
-				//DESTROY ALL THE BALLS
-				while (firstBall != null)
-				{
-					GameObject nextBall = firstBall.GetComponent<RayBallConstructor>().otherNeighbor;
-					Destroy(firstBall);
-					firstBall = nextBall;
-				}
-				pointerRenderer.sprite =none;     
-				activePower = Power.Movement;
-				break;
-			case Power.Movement:
-				Debug.Log("Swapping to Circular");
-				//Stop Horizontal Movement
-				Vector2 movement = new Vector2(0, rb2d.velocity.y);
-				rb2d.velocity = (movement);
-				activePower = Power.Circular;
-				break;
-			}
-		}
-		else if (Input.GetKeyDown(KeyCode.E))
-		{
-			switch (activePower)
-			{
-			case Power.Circular:
-				Debug.Log("Swapping to Movement");
-				activePower = Power.Movement;
-				//DESTROY ALL THE BALLS
-				while (firstBall != null)
-				{
-					GameObject nextBall = firstBall.GetComponent<EchoBallConstructor>().otherNeighbor;
-					Destroy(firstBall);
-					firstBall = nextBall;
-				}
-				break;
-			case Power.Flashlight:
-				Debug.Log("Swapping to Circular");
-				//RESET FLASHLIGH
-				playerLight.intensity = 0.0f;
-				for (int i = 0; i < invis.Length; i++)
-				{
-					ren[i].sprite = none;
-				}
-				activePower = Power.Circular;
-				break;
-			case Power.Ray:
-				Debug.Log ("Swapping to Flashlight");
-				//DESTROY ALL THE BALLS
-				while (firstBall != null) {
-					GameObject nextBall = firstBall.GetComponent<RayBallConstructor> ().otherNeighbor;
-					Destroy (firstBall);
-					firstBall = nextBall;
-				}
-				activePower = Power.Flashlight;
-				pointerRenderer.sprite = none;
-				break;
-			case Power.Movement:
-				Debug.Log ("Swapping to Ray");
-				//Stop Horizontal Movement
-				Vector2 movement = new Vector2 (0, rb2d.velocity.y);
-				rb2d.velocity = (movement);
-				activePower = Power.Ray;
-				pointerRenderer.sprite = pointer_sprite;
-				break;
-			}
-		}
-		else
-		{
-			switch (activePower) {
-			case Power.Circular:
-				circularEcho();
-				break;
-			case Power.Flashlight:
-				invisible();
-				break;
-			case Power.Ray:
-				rayPower ();
-				break;
-			case Power.Movement:
-				movement();
-				break;
-			}
-		}
-	}
+    void OnGUI()
+    {
+        int offset = 0;
+        int numOfPowers = System.Enum.GetNames(typeof(Power)).Length;
+        GUIStyle activeButton = new GUIStyle(GUI.skin.box);
+        activeButton.normal.textColor = Color.red;
+        activeButton.fontStyle = FontStyle.Bold;
+        foreach (string powers in System.Enum.GetNames(typeof(Power)))
+        {
+            int x = Screen.width / 2 - 100 * numOfPowers / 2;
+            Rect r = new Rect(x + offset * 100, Screen.height - 30, 100, 20);
+            if (powers.Equals(activePower.ToString()))
+            {
+                GUI.Box(r, powers, activeButton);
+            }
+            else
+            {
+                GUI.Box(r, powers);
+            }
+            offset++;
+        }
+    }
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.LeftShift) && (activePower != Power.Movement)))
+        {
+            //TODO negate current active power
+            switch (activePower)
+            {
+                case Power.Circular:
+                    //DESTROY ALL THE BALLS
+                    while (firstBall != null)
+                    {
+                        GameObject nextBall = firstBall.GetComponent<EchoBallConstructor>().otherNeighbor;
+                        Destroy(firstBall);
+                        firstBall = nextBall;
+                    }
+                    break;
+                case Power.Flashlight:
+                    //RESET FLASHLIGH
+                    playerLight.intensity = 0.0f;
+                    for (int i = 0; i < invis.Length; i++)
+                    {
+                        ren[i].sprite = none;
+                    }
+                    //pointerRenderer.sprite = pointer_sprite;
+                    break;
+                case Power.Ray:
+                    //DESTROY ALL THE BALLS
+                    while (firstBall != null)
+                    {
+                        GameObject nextBall = firstBall.GetComponent<RayBallConstructor>().otherNeighbor;
+                        Destroy(firstBall);
+                        firstBall = nextBall;
+                    }
+                    pointerRenderer.sprite = none;
+                    break;
+                case Power.Movement:
+                    //Stop Horizontal Movement
+                    Vector2 movement = new Vector2(0, rb2d.velocity.y);
+                    rb2d.velocity = (movement);
+                    break;
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                switch (activePower)
+                {
+                    case Power.Circular:
+                        Debug.Log("Swapping to flashlight");
+                        pointerRenderer.sprite = pointer_sprite;
+                        activePower = Power.Ray;
+                        break;
+                    case Power.Movement:
+                        Debug.Log("Swapping to circular");
+                        activePower = Power.Circular;
+                        break;
+                    case Power.Flashlight:
+                        Debug.Log("Swapping to ray");
+                        activePower = Power.Movement;
+                        break;
+                    case Power.Ray:
+                        Debug.Log("Swapping to movement");
+                        pointerRenderer.sprite = none;
+                        activePower = Power.Flashlight;
+                        break;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                switch (activePower)
+                {
+                    case Power.Circular:
+                        Debug.Log("Swapping to movement");
+                        activePower = Power.Movement;
+                        break;
+                    case Power.Movement:
+                        Debug.Log("Swapping to ray");
+                        activePower = Power.Flashlight;
+                        break;
+                    case Power.Flashlight:
+                        Debug.Log("Swapping to circular");
+                        pointerRenderer.sprite = pointer_sprite;
+                        activePower = Power.Ray;
+                        break;
+                    case Power.Ray:
+                        Debug.Log("Swapping to flashlight");
+                        pointerRenderer.sprite = none;
+                        activePower = Power.Circular;
+                        break;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Debug.Log("Swapping back to movement");
+                pointerRenderer.sprite = none;
+                activePower = Power.Movement;
+            }
+        }
+        else
+        {
+            switch (activePower)
+            {
+                case Power.Circular:
+                    circularEcho();
+                    break;
+                case Power.Flashlight:
+                    invisible();
+                    break;
+                case Power.Ray:
+                    rayPower();
+                    break;
+                case Power.Movement:
+                    movement();
+                    break;
+            }
+        }
+    }
 
 	//MOVEMENT SCRIPTS
 	void movement()
