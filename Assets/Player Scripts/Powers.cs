@@ -334,7 +334,7 @@ public class Powers : MonoBehaviour {
 			v.x = Mathf.Cos (angle) * 3 + player.transform.position.x;
 			v.y = Mathf.Sin (angle) * 3 + player.transform.position.y;
 			pointerTransform.position = v;
-			pointerTransform.Rotate (new Vector3 (0, 0, 15));
+			pointerTransform.Rotate (new Vector3 (0, 0, 7.5f));
 		}
 		if (Input.GetKeyDown (KeyCode.D)) 
 		{
@@ -346,7 +346,7 @@ public class Powers : MonoBehaviour {
 			v.x = Mathf.Cos (angle) * 3 + player.transform.position.x;
 			v.y = Mathf.Sin (angle) * 3 + player.transform.position.y;
 			pointerTransform.position = v;
-			pointerTransform.Rotate (new Vector3 (0, 0, -15));
+			pointerTransform.Rotate (new Vector3 (0, 0, -7.5f));
 
 		}
 		if (cooldown > 0)
@@ -370,10 +370,12 @@ public class Powers : MonoBehaviour {
 
 			float radStart = angle - Mathf.PI / 24;
 			float radEnd = angle + Mathf.PI / 24;
-			float radD = Mathf.PI * 2 / numberOfBalls;
+			float c = numberOfBalls / (2*Mathf.PI) * (radEnd-radStart);
 
-			for (float rad = radStart; rad < radEnd; rad += radD)
+			for (int i = 0; i < c; i++)
 			{
+				float rad = radStart + (radEnd - radStart) / c * i;
+
 				Vector2 offset = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
 				GameObject theBall = (GameObject)Instantiate(rayBall, parent.position, none);
 				Rigidbody2D rgbd = theBall.GetComponent<Rigidbody2D>();
@@ -392,6 +394,7 @@ public class Powers : MonoBehaviour {
 				}
 				rgbd.velocity = offset*velocityScalar;
 				previousBall = theBall;
+				//break;
 			}
 		}
 	}

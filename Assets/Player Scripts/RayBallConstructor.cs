@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RayBallConstructor : MonoBehaviour {
+	private static int count = 0;
+	private int id;
 	private float time = 0;
     public float timeTilDeath;
     public GameObject neighbor;
@@ -20,6 +22,10 @@ public class RayBallConstructor : MonoBehaviour {
 	private int mi = 0;
     // Use this for initialization
     void Start () {
+		id = count;
+		count++;
+		Debug.Log ("initialize id " + id);
+
         Destroy(gameObject, timeTilDeath);
         //broken = false;
 		collider = GetComponent<CircleCollider2D> ();
@@ -37,11 +43,21 @@ public class RayBallConstructor : MonoBehaviour {
 			return;
 		
 		time += Time.deltaTime;
-		int x = Physics2D.OverlapCircle (transform.position, collider.radius, new ContactFilter2D(), buffer);
+		LayerMask plm = LayerMask.NameToLayer ("Platforms");
+		LayerMask iplm = LayerMask.NameToLayer ("InvisiblePlatforms");
+		LayerMask cplm = ((1 << plm.value) | (1 << iplm.value));
+		ContactFilter2D cf2d = new ContactFilter2D ();
+		cf2d.layerMask = plm;
+		cf2d.useLayerMask = true;
+
+		buffer = Physics2D.OverlapCircleAll (transform.position, collider.radius, cplm.value);
+
+		int x = buffer.Length;
 		int c = 0;
 		for (int i = 0; i < x; i++) 
 		{
 			int l = buffer [i].gameObject.layer;
+			Debug.Log("id " + id + " encountered an object of layer " + LayerMask.LayerToName(buffer[i].gameObject.layer));
 			if (l == LayerMask.NameToLayer ("Platforms") && l != LayerMask.NameToLayer ("InvisiblePlatforms")) 
 			{
 				c++;
