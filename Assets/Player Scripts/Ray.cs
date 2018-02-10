@@ -11,7 +11,7 @@ public class Ray : Echo
 	private SpriteRenderer pointerRenderer;
 	public Sprite pointer_sprite;
 	public Sprite none;
-	public float angle = 0;
+	private float angle = 0;
 
 	public override string getName()
 	{
@@ -22,6 +22,7 @@ public class Ray : Echo
 	{
 		pointerRenderer = GameObject.Find("pointer").GetComponent<SpriteRenderer>();
 		pointerTransform = GameObject.Find("pointer").GetComponent<Transform>();
+		pointerTransform.position = new Vector3 (player.transform.position.x + 3, player.transform.position.y, 0);
 	}
 
 	public override float tick(bool onCd)

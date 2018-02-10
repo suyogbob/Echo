@@ -7,7 +7,7 @@ public class Powers : MonoBehaviour {
 	public GameObject player;
 	private IPower[] powers;
 	private int power;
-	public float cooldown;
+	private float cooldown;
 	//GENERAL POWER SCRIPTS
 	void Start()
 	{
