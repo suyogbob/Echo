@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IPower 
 {
 	void init();
-	void tick();
+	float tick(bool onCd);
 	void switchTo();
 	void switchFrom();
 	string getName();

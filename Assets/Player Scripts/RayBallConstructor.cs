@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RayBallConstructor : MonoBehaviour {
+public class RayBallConstructor : EchoBallConstructor {
 	private static int count = 0;
 	private int id;
 	private float time = 0;
-    public float timeTilDeath;
-    public GameObject neighbor;
-    public GameObject otherNeighbor;
-    public float breakingPoint;
-    private bool broken;
 	private CircleCollider2D collider;
 	private Transform transform;
 	private Rigidbody2D rb2d;

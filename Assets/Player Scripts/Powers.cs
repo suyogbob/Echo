@@ -7,6 +7,7 @@ public class Powers : MonoBehaviour {
 	public GameObject player;
 	private IPower[] powers;
 	private int power;
+	public float cooldown;
 	//GENERAL POWER SCRIPTS
 	void Start()
 	{
@@ -22,6 +23,8 @@ public class Powers : MonoBehaviour {
 		{
 			powers [i].init ();
 		}
+
+		cooldown = 0;
 
 	}
 
@@ -65,10 +68,16 @@ public class Powers : MonoBehaviour {
 
 			powers [power].switchTo ();
 
+			cooldown = 0;
+
         }
         else
         {
-			powers [power].tick ();
+			cooldown += powers [power].tick (cooldown > 0);
+			if (cooldown > 0)
+				cooldown -= Time.deltaTime;
+			if (cooldown < 0)
+				cooldown = 0;
         }
     }
 

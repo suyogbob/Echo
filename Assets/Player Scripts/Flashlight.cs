@@ -30,7 +30,7 @@ public class Flashlight : MonoBehaviour, IPower
 		}
 	}
 
-	public void tick()
+	public float tick(bool onCd)
 	{
 		for (int i = 0; i < invis.Length; i++)
 		{
@@ -52,6 +52,7 @@ public class Flashlight : MonoBehaviour, IPower
 			timeSinceUse = 0f;
 		}
 		timeSinceUse += Time.deltaTime;
+		return 0;
 	}
 
 	public void switchTo()

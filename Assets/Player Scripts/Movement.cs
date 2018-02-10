@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour, IPower
 		platformsIndex = LayerMask.NameToLayer("Platforms");
 	}
 
-	public void tick()
+	public float tick(bool onCd)
 	{
 		if (Input.GetKey(KeyCode.LeftShift))
 		{
@@ -54,6 +54,7 @@ public class Movement : MonoBehaviour, IPower
 			rb2d.AddForce(move);
 			isGrounded = false;
 		}
+		return 0;
 	}
 
 	public void switchTo()
