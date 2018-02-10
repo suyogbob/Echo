@@ -24,7 +24,6 @@ public class RayBallConstructor : MonoBehaviour {
     void Start () {
 		id = count;
 		count++;
-		Debug.Log ("initialize id " + id);
 
         Destroy(gameObject, timeTilDeath);
         //broken = false;
@@ -57,7 +56,6 @@ public class RayBallConstructor : MonoBehaviour {
 		for (int i = 0; i < x; i++) 
 		{
 			int l = buffer [i].gameObject.layer;
-			Debug.Log("id " + id + " encountered an object of layer " + LayerMask.LayerToName(buffer[i].gameObject.layer));
 			if (l == LayerMask.NameToLayer ("Platforms") && l != LayerMask.NameToLayer ("InvisiblePlatforms")) 
 			{
 				c++;
