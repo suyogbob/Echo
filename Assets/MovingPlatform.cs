@@ -24,6 +24,8 @@ public class MovingPlatform : MonoBehaviour {
 			positions = new Vector3[1];
 			positions [0] = new Vector3(0,0,0);
 		}
+
+		FindObjectOfType<LevelManager> ().registerMover (this);
 	}
 	
 	// Update is called once per frame
@@ -33,5 +35,11 @@ public class MovingPlatform : MonoBehaviour {
 			currentTarget = (currentTarget + 1) % positions.Length;
 		rb2d.velocity = (positions [currentTarget] + start - transform.position).normalized * velocityScalar;
 
+	}
+
+	public void reset()
+	{
+		transform.position = start;
+		currentTarget = 0;
 	}
 }
