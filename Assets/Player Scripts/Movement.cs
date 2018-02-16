@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour, IPower
 	private bool isGrounded;
 	private float speed;
 	private int platformsIndex;
+	private int defaultIndex;
 	private GameObject platform;
 
 	public string getName()
@@ -26,6 +27,7 @@ public class Movement : MonoBehaviour, IPower
 		speed = speedInitial;
 		isGrounded = true;
 		platformsIndex = LayerMask.NameToLayer("Platforms");
+		defaultIndex = LayerMask.NameToLayer ("Default");
 	}
 
 	public float tick(bool onCd)
@@ -70,7 +72,7 @@ public class Movement : MonoBehaviour, IPower
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		platform = col.gameObject;
-		if (platform.layer == platformsIndex)
+		if (platform.layer == platformsIndex || platform.layer == defaultIndex)
 		{
 			isGrounded = true;
 		}
@@ -79,7 +81,7 @@ public class Movement : MonoBehaviour, IPower
 	void OnTriggerExit2D(Collider2D col)
 	{
 		platform = col.gameObject;
-		if (platform.layer == platformsIndex)
+		if (platform.layer == platformsIndex || platform.layer == defaultIndex)
 		{
 			isGrounded = false;
 		}
