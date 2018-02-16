@@ -20,6 +20,10 @@ public class MovingPlatform : MonoBehaviour {
 		transform = GetComponent<Transform> ();
 		currentTarget = 0;
 		start = transform.position;
+		if (positions.Length == 0) {
+			positions = new Vector3[1];
+			positions [0] = new Vector3(0,0,0);
+		}
 	}
 	
 	// Update is called once per frame
