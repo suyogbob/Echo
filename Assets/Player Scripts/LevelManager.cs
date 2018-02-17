@@ -11,6 +11,8 @@ public class LevelManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindWithTag("Player");
+		if (movers == null)
+			movers = new List<MovingPlatform> ();
 
 	}
 

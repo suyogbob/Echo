@@ -21,4 +21,11 @@ public class PlayerDeath : MonoBehaviour {
             levelManager.RespawnPlayer();
         }
     }
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.name == "Player") {
+			levelManager.RespawnPlayer ();
+		}
+	}
 }
