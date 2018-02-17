@@ -5,7 +5,11 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
     HashSet<PowerPickups> activePowers = new HashSet<PowerPickups>();
     void addToPowerSet(PowerPickups powers) {
-        activePowers.Add(powers);
+        bool found = false;
+        foreach (PowerPickups p in activePowers) {
+            if (p.getName().Equals(powers.getName())) found = true;
+        }
+        if(!found) activePowers.Add(powers);
     }
     void clearPowerSet() {
         activePowers.Clear();
