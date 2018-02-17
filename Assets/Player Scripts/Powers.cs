@@ -79,6 +79,28 @@ public class Powers : MonoBehaviour {
 			if (cooldown < 0)
 				cooldown = 0;
         }
+
+		// Activate powers by pushing number keys, so player can go out of order. Assumes Movement is 1, Echo is 2, etc.
+
+		// Loop for all ints between 1 and the number of powers
+		for (int i = 1; i <= powers.Length; i++) 
+		{
+			// If a number between 1 and the number of powers is pushed on the keyboard... 
+			if (Input.GetKeyDown (i.ToString ())) {
+				// Switch from last power
+				powers [power].switchFrom ();
+
+				// Update current power to be the power at the selected number
+				power = i - 1;
+
+				// Switch to next power
+				powers [power].switchTo ();
+
+				// And reset cooldown
+				cooldown = 0;
+			} 
+				
+		}
     }
 
 }
