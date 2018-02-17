@@ -2,17 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Manages the individual behavior of the echo ball particles
+ */
 public class EchoBallConstructor : MonoBehaviour {
+	/* CONFIGURATIONS */
+
+	//how long the balls last
     public float timeTilDeath;
+
+	//linked list implementation
     public GameObject neighbor;
     public GameObject otherNeighbor;
+
+
+	//these were part of some code to make the balls die ("break") if they got too far away from
+	//their neighbors. they are currently unused.
+	/*
     public float breakingPoint;
-    private bool broken;
-    // Use this for initialization
-    void Start () {
+	private bool broken;
+	*/
+
+	void Start () {
+		//put the object on a destruction timer
         Destroy(gameObject, timeTilDeath);
         //broken = false;
     }
+
+	//unused particle-breaking code
     /*void Update() {
         //if (broken) return;
         //LineRenderer LR = GetComponent<LineRenderer>();

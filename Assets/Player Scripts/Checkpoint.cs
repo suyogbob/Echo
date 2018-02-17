@@ -2,25 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Manages the checkpoint system for player death.
+ * Alerts the level manager when the player touches it
+ * so the level manager can do the respawn.
+ */
+
 public class Checkpoint : MonoBehaviour {
 
-    public LevelManager levelManager;
+	//the LevelManager instance
+   	private LevelManager levelManager;
 
-    // Use this for initialization
-    void Start()
+	void Start()
     {
+		//find the level manager
         levelManager = FindObjectOfType<LevelManager>();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+	{
 	}
 
+	//detect player triggers
     void OnTriggerEnter2D(Collider2D other)
     {
+		//make sure it is a player
         if (other.name == "Player")
         {
+			//update the level manager
             levelManager.currentCheckpoint = gameObject;
         }
     }
