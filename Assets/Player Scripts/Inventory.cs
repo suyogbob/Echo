@@ -4,12 +4,43 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     HashSet<PowerPickups> activePowers = new HashSet<PowerPickups>();
+    int getPowerSetSize() {
+        return activePowers.Count;
+    }
+    PowerPickups getPowerPickupAt(int index) {
+        if( index >= getPowerSetSize()) return null;
+        int count = 0;
+        foreach (PowerPickups p in activePowers) {
+            if (count == index) {
+                return p;
+            }
+            count++;
+        }
+        return null;
+    }
     void addToPowerSet(PowerPickups powers) {
         bool found = false;
         foreach (PowerPickups p in activePowers) {
             if (p.getName().Equals(powers.getName())) found = true;
         }
-        if(!found) activePowers.Add(powers);
+        if (!found) {
+            if (powers.getName().Equals("Echo"))
+            {
+                powers.powerScript = GameObject.Find("Player").GetComponent<Echo>();
+            }
+            else if (powers.getName().Equals("Flashligh"))
+            {
+                powers.powerScript = GameObject.Find("Player").GetComponent<Flashlight>();
+            }
+            else if (powers.getName().Equals("Ray"))
+            {
+                powers.powerScript = GameObject.Find("Player").GetComponent<Ray>();
+            }
+            else {
+                Debug.Log("Not changing powerScript");
+            }
+            activePowers.Add(powers);
+        }
     }
     void clearPowerSet() {
         activePowers.Clear();
@@ -45,6 +76,9 @@ public class Inventory : MonoBehaviour {
     //Loads the temporary inventory into inventory
     void Start () {
         mergePowerSet(tempInventory.powerPickup);
+        IPower movementScript = GameObject.Find("Player").GetComponent<Movement>();
+        PowerPickups movementPickup = new PowerPickups("Movement", movementScript);
+        addToPowerSet(movementPickup);
 	}
 	// Update is called once per frame
 	public void saveInventory () {

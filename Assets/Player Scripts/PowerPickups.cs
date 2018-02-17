@@ -6,8 +6,10 @@ using UnityEngine;
 public class PowerPickups : MonoBehaviour, Pickups
 {
     public String name;
-    public PowerPickups(String name) {
+    public IPower powerScript;
+    public PowerPickups(String name, IPower powerScript) {
         this.name = name;
+        this.powerScript = powerScript;
     }
     public string getName()
     {
