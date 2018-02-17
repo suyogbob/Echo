@@ -123,13 +123,13 @@ public class Powers : MonoBehaviour {
 			// If a number between 1 and the number of powers is pushed on the keyboard... 
 			if (Input.GetKeyDown (i.ToString ())) {
 				// Switch from last power
-				powers [power].switchFrom ();
+				powers [currentPower].switchFrom ();
 
 				// Update current power to be the power at the selected number
-				power = i - 1;
+				currentPower = i - 1;
 
 				// Switch to next power
-				powers [power].switchTo ();
+				powers [currentPower].switchTo ();
 
 				// And reset cooldown
 				cooldown = 0;
