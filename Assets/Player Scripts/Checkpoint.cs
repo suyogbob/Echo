@@ -13,23 +13,20 @@ public class Checkpoint : MonoBehaviour {
 	//the LevelManager instance
    	private LevelManager levelManager;
 
-	void Start()
-    {
+
+    void Start() {
 		//find the level manager
         levelManager = FindObjectOfType<LevelManager>();
     }
-	
-	void Update ()
-	{
+
+	void Update () {
 	}
 
 	//detect player triggers
-    void OnTriggerEnter2D(Collider2D other)
-    {
-		//make sure it is a player
-        if (other.name == "Player")
-        {
-			//update the level manager
+    void OnTriggerEnter2D(Collider2D other) {
+      //if player goes through the checkpoint, update current Checkpoint
+        if (other.name == "Player") {
+			//update level manager
             levelManager.currentCheckpoint = gameObject;
         }
     }
