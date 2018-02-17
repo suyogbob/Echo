@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PowerPickups : MonoBehaviour, Pickups
 {
-    private String name;
+    public String name;
     public PowerPickups(String name) {
         this.name = name;
     }
