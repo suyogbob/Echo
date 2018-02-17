@@ -16,19 +16,32 @@ public class Powers : MonoBehaviour {
 	/* INTERNAL VARIABLES */
 	//array of power objects
 	private IPower[] powers;
+    private LinkedList<IPower> powersList = new LinkedList<IPower>();
 	//pointer to current power
 	private int currentPower;
 	//current accumulated cooldown
 	private float cooldown;
-
+    /// <summary>
+    /// Used by the inventory script to add PowerPickups' 
+    /// powerScript attributes to the list of powers that can be used.
+    /// </summary>
+    /// <author>Chris Foley</author>
+    /// <param name="set">The set of PowerPickups to be considered for the weapon wheel.</param>
+    public void addPower(IPower newPower) {
+        Debug.Log("Updating Powers List");
+        newPower.init();
+        powersList.AddLast(newPower);
+        Debug.Log("Finished Adding " + newPower.ToString());
+        
+    }
 	void Start()
 	{
-		//Power are defined here rather than in the Inspector (Configurations)
-		//because we haven't figured out how to put purely abstract C# objects
-		//(i.e. not gameObjects) in the inspector
-
-		//base definition
-		powers = new IPower[4];
+        Debug.Log("Starting");
+        //Power are defined here rather than in the Inspector (Configurations)
+        //because we haven't figured out how to put purely abstract C# objects
+        //(i.e. not gameObjects) in the inspector
+        //base definition
+        powers = new IPower[4];
 		powers [0] = player.GetComponent<Movement> ();
 
 		//power
