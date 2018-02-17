@@ -38,13 +38,12 @@ public class Inventory : MonoBehaviour {
         r = new Rect(0, Screen.height - 20 * y, 150, 20);
         GUI.Box(r, "Power List Inventory");
     }
-    // Use this for initialization
+    //Loads the temporary inventory into inventory
     void Start () {
-		
+        mergePowerSet(tempInventory.powerPickup);
 	}
-	
 	// Update is called once per frame
-	void Update () {
-		
+	public void saveInventory () {
+        tempInventory.powerPickup = activePowers;
 	}
 }

@@ -35,6 +35,8 @@ public class NextLevel : MonoBehaviour {
         if (diamondCollider.gameObject.name == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
+            Inventory script = GameObject.Find("Player").GetComponent<Inventory>();
+            script.saveInventory();
             SceneManager.LoadScene(levelToLoad);
         }
 	}
