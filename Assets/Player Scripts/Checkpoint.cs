@@ -10,13 +10,16 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour {
 
+
 	//the LevelManager instance
    	private LevelManager levelManager;
+    private GameObject player;
 
 
     void Start() {
 		//find the level manager
         levelManager = FindObjectOfType<LevelManager>();
+        player = GameObject.FindWithTag("Player");
     }
 
 	void Update () {
@@ -25,7 +28,7 @@ public class Checkpoint : MonoBehaviour {
 	//detect player triggers
     void OnTriggerEnter2D(Collider2D other) {
       //if player goes through the checkpoint, update current Checkpoint
-        if (other.name == "Player") {
+        if (other.tag == player.tag) {
 			//update level manager
             levelManager.currentCheckpoint = gameObject;
         }

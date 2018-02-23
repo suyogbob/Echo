@@ -15,9 +15,12 @@ public class PlayerDeath : MonoBehaviour {
 
 	//level manager reference
     private LevelManager levelManager;
+    //player reference
+    private GameObject player;
 
 	void Start () {
         levelManager = FindObjectOfType<LevelManager>();
+        player = GameObject.FindWithTag("Player");
 	}
 
 	void Update () {
@@ -27,17 +30,9 @@ public class PlayerDeath : MonoBehaviour {
 	//respond to triggers
     void OnTriggerEnter2D(Collider2D other) {
       // if player falls through, trigger respawn
-        if(other.name == "Player") {
+        if(other.tag == player.tag) {
             levelManager.RespawnPlayer();
         }
     }
 
-	//respond to collisions
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-    // testing
-		if (collision.gameObject.name == "Player") {
-			levelManager.RespawnPlayer ();
-		}
-	}
 }
