@@ -16,9 +16,9 @@ public class Powers : MonoBehaviour {
 	/* INTERNAL VARIABLES */
 	//array of power objects
 	private IPower[] powers;
-    private LinkedList<IPower> powersList = new LinkedList<IPower>();
+    public LinkedList<IPower> powersList = new LinkedList<IPower>();
 	//pointer to current power
-	private int currentPower;
+	private IPower currentPower;
 	//current accumulated cooldown
 	private float cooldown;
     /// <summary>
@@ -34,84 +34,118 @@ public class Powers : MonoBehaviour {
         Debug.Log("Finished Adding " + newPower.ToString());
         
     }
-	void Start()
-	{
+    void Start()
+    {
         Debug.Log("Starting");
         //Power are defined here rather than in the Inspector (Configurations)
         //because we haven't figured out how to put purely abstract C# objects
         //(i.e. not gameObjects) in the inspector
         //base definition
-        powers = new IPower[4];
-		powers [0] = player.GetComponent<Movement> ();
 
-		//power
-		powers [1] = player.GetComponent<Echo> ();
-		powers [2] = player.GetComponent<Ray> ();
-		powers [3] = player.GetComponent<Flashlight> ();
-
-		//init powers
-		currentPower = 0;
-		for (int i = 0; i < powers.Length; i++) 
-		{
-			powers [i].init ();
-		}
-
+        //init powers
+        /*
+        powersList = new LinkedList<IPower>();
+        currentPower = player.GetComponent<Movement>();
+        currentPower.init();
+        powersList.AddLast(currentPower);
+        */
+        player = gameObject;
+        powersList = player.GetComponent<Inventory>().getPowerSet();
+        if (powersList.Count == 0)
+        {
+            powersList = new LinkedList<IPower>();
+            currentPower = player.GetComponent<Movement>();
+            currentPower.init();
+            powersList.AddLast(currentPower);
+        }
+        else {
+            currentPower = player.GetComponent<Movement>();
+            foreach (IPower p in powersList) p.init();
+        }
 		cooldown = 0;
-
 	}
-
+    
 	//draw the power gui
     void OnGUI()
     {
+        Debug.Log("GUI Drawing list of "+powersList.Count);
 		//setup gui style for current power
 		int offset = 0;
         GUIStyle activeButton = new GUIStyle(GUI.skin.box);
         activeButton.normal.textColor = Color.red;
         activeButton.fontStyle = FontStyle.Bold;
-		//handle powers indicators
-		for(int i = 0; i < powers.Length; i++)
+        //handle powers indicators
+		foreach(IPower p in powersList)
         {
 			//bounding rectangle
-			int x = Screen.width / 2 - 100 * powers.Length / 2;
+			int x = Screen.width / 2 - 100 * powersList.Count / 2;
             Rect r = new Rect(x + offset * 100, Screen.height - 30, 100, 20);
 			//draw active power
-			if (i == currentPower)
+			if (p.getName() == currentPower.getName())
             {
-				GUI.Box(r, powers[i].getName(), activeButton);
+				GUI.Box(r, p.getName(), activeButton);
             }
             else //draw other powers
             {
-				GUI.Box(r, powers[i].getName());
+				GUI.Box(r, p.getName());
             }
 
             offset++;
         }
     }
-
 	//hanlde swapping
     void Update() {
-		//movement is always power 0. only switch to movement if not already there
-		if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.LeftShift) && (currentPower != 0)))
+        //movement is always power 0. only switch to movement if not already there
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.LeftShift) && (!currentPower.getName().Equals("Movement"))))
         {
-			//deselect callback
-			powers[currentPower].switchFrom();
 
-			//switch left
-			if (Input.GetKeyDown (KeyCode.Q))
-			{
-				currentPower--;
-				if (currentPower < 0)
-					currentPower = powers.Length - 1;
-			}
-			//switch right
+            //deselect callback
+            currentPower.switchFrom();
+            IPower nextPower = null;
+            IPower prevPower = null;
+            IPower firstPower = null;
+            IPower lastPower = null;
+            bool foundCenter = false;
+            foreach (IPower p in powersList)
+            {
+
+                if (firstPower == null) firstPower = p;
+                if (p.getName().Equals(currentPower.getName()))
+                {
+                    foundCenter = true;
+                }
+                else if (foundCenter != true)
+                {
+                    prevPower = p;
+                }
+                else if (foundCenter && nextPower == null)
+                {
+                    nextPower = p;
+                }
+                lastPower = p;
+            }
+            //switch left
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                currentPower = prevPower;
+                if (currentPower == null)
+                    currentPower = lastPower;
+            }
+            //switch right
             else if (Input.GetKeyDown(KeyCode.E))
-				currentPower = (currentPower + 1) % powers.Length;
-			
-			else if (Input.GetKeyDown(KeyCode.LeftShift)) //leftshift - go to movement (0)
-				currentPower = 0;
+            {
+                currentPower = nextPower;
+                if (currentPower == null)
+                    currentPower = firstPower;
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftShift)) {//leftshift - go to movement (0)
+                foreach (IPower p in powersList) {
+                    if (p.getName().Equals("Movement")) currentPower = p;
+                }
+            }          
 
 			//select callback
-			powers [currentPower].switchTo ();
+			currentPower.switchTo ();
 
 			cooldown = 0;
 
@@ -120,7 +154,7 @@ public class Powers : MonoBehaviour {
         {
 			//tick the power, and tell it if it is on cooldown.
 			//update the cooldowns
-			cooldown += powers [currentPower].tick (cooldown > 0); 
+			cooldown += currentPower.tick (cooldown > 0); 
 			//tick the cooldown
 			if (cooldown > 0)
 				cooldown -= Time.deltaTime;
@@ -128,26 +162,23 @@ public class Powers : MonoBehaviour {
 				cooldown = 0;
         }
 
-		// Activate powers by pushing number keys, so player can go out of order. Assumes Movement is 1, Echo is 2, etc.
+        // Activate powers by pushing number keys, so player can go out of order. Assumes Movement is 1, Echo is 2, etc.
 
-		// Loop for all ints between 1 and the number of powers
-		for (int i = 1; i <= powers.Length; i++) 
+        // Loop for all ints between 1 and the number of powers
+        int index = 1;
+		foreach(IPower p in powersList) 
 		{
 			// If a number between 1 and the number of powers is pushed on the keyboard... 
-			if (Input.GetKeyDown (i.ToString ())) {
+			if (Input.GetKeyDown (index.ToString ())) {
 				// Switch from last power
-				powers [currentPower].switchFrom ();
-
-				// Update current power to be the power at the selected number
-				currentPower = i - 1;
-
+				currentPower.switchFrom ();
+                currentPower = p;
 				// Switch to next power
-				powers [currentPower].switchTo ();
-
+				currentPower.switchTo ();
 				// And reset cooldown
 				cooldown = 0;
-			} 
-				
+			}
+            index++;	
 		}
     }
 
