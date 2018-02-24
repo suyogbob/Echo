@@ -126,7 +126,7 @@ public class Inventory : MonoBehaviour {
         PowerPickups movementPickup = new PowerPickups("Movement", movementScript);
         addToPowerSet(movementPickup);
 	}
-    /*void Update()
+    void Update()
     {
         if (powerManager.powersList.Count != activePowers.Count) {
             powerManager.powersList = new LinkedList<IPower>();
@@ -134,7 +134,7 @@ public class Inventory : MonoBehaviour {
                 powerManager.addPower(p.powerScript);
             }
         }
-    }*/
+    }
     public LinkedList<IPower> getPowerSet() {
         LinkedList<IPower> result = new LinkedList<IPower>();
         foreach (PowerPickups p in activePowers) {
