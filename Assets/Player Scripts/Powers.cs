@@ -68,7 +68,7 @@ public class Powers : MonoBehaviour {
 	//draw the power gui
     void OnGUI()
     {
-        Debug.Log("GUI Drawing list of "+powersList.Count);
+        //Debug.Log("GUI Drawing list of "+powersList.Count);
 		//setup gui style for current power
 		int offset = 0;
         GUIStyle activeButton = new GUIStyle(GUI.skin.box);

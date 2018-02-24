@@ -35,4 +35,12 @@ public class PlayerDeath : MonoBehaviour {
         }
     }
 
+	//respond to triggers
+	void OnCollisionEnter2D(Collision2D collision) {
+		// if player falls through, trigger respawn
+		if(collision.gameObject == player) {
+			levelManager.RespawnPlayer();
+		}
+	}
+
 }

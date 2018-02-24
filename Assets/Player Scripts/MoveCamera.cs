@@ -8,7 +8,8 @@ public class MoveCamera : MonoBehaviour {
 	private Transform playerPosition;
 	private Transform cameraPosition;
     public int speed = 2;
-	public int cameraWidth;
+	public float cameraWidth;
+	public float cameraHeight;
 
 	// Use this for initialization
 	void Start () {
@@ -31,5 +32,16 @@ public class MoveCamera : MonoBehaviour {
 			cameraPosition.position = new Vector3(cameraPosition.position.x - cameraWidth - 1.5f,
 			cameraPosition.position.y, cameraPosition.position.z);
 		}
+
+		// move camera up , elseif - move camera down
+		if (playerPosition.position.y > cameraPosition.position.y + cameraHeight / 2 + 1.5f) {
+			cameraPosition.position = new Vector3(cameraPosition.position.x,
+				cameraPosition.position.y + cameraHeight + 1.5f, cameraPosition.position.z);
+		} else if (playerPosition.position.y < cameraPosition.position.y - cameraHeight / 2 - 1.5f) {
+			cameraPosition.position = new Vector3(cameraPosition.position.x,
+				cameraPosition.position.y - cameraHeight - 1.5f, cameraPosition.position.z);
+		}
+			
+
 	}
 }
