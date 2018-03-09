@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     HashSet<PowerPickups> activePowers = new HashSet<PowerPickups>();
+    public HashSet<Pickups> inventoryList = new HashSet<Pickups>();
     Powers powerManager;
     int getPowerSetSize() {
         return activePowers.Count;
@@ -58,12 +59,12 @@ public class Inventory : MonoBehaviour {
     public void HandlePickup(Pickups p) {
         if (p is PowerPickups)
         {
-            Debug.Log("Handling: " + p.getName()); 
+            Debug.Log("Adding Power: " + p.getName()); 
             addToPowerSet((PowerPickups) p);
         }
         else {
-            Debug.Log("What is " + p.getName() + "?");
-            throw new System.Exception();
+            Debug.Log("Adding Inventory Item " + p.getName());
+            inventoryList.Add(p);
         }
     }
     /*
@@ -90,12 +91,15 @@ public class Inventory : MonoBehaviour {
     */
     //Loads the temporary inventory into inventory
     void Start () {
+        //Reload non-power inventory
+        inventoryList.Clear();
+        inventoryList = tempInventory.inventoryPickup;
+        //Reload power inventory
         Debug.Log("--------------------------------------------------------");
         powerManager = GameObject.Find("Player").GetComponent<Powers>();
         clearPowerSet();
         HashSet<PowerPickups> oldInventory = tempInventory.powerPickup;
         HashSet<PowerPickups> newInventory = new HashSet<PowerPickups>();
-        //TODO: refresh inventory
         foreach(PowerPickups p in oldInventory)
         {
             if (p.getName().Equals("Circular"))
@@ -145,5 +149,6 @@ public class Inventory : MonoBehaviour {
 	// Update is called once per frame
 	public void saveInventory () {
         tempInventory.powerPickup = activePowers;
+        tempInventory.inventoryPickup = inventoryList;
 	}
 }
