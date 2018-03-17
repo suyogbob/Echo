@@ -4,32 +4,51 @@ using UnityEngine;
 
 public class InventoryView : MonoBehaviour {
     bool showInventoryScreen = false;
-	// Use this for initialization
-	void Start () {
+    string description = "Please select a document to look at";
+    // Use this for initialization
+    void Start () {
         showInventoryScreen = false;
 	}
     //Screen
     void OnGUI()
     {
-        if (showInventoryScreen) { 
-            int y = 1;
+        if (showInventoryScreen) {
             Rect r;
-            r = new Rect(0, Screen.height - 20 * y, 150, 20);
+            Inventory inventoryObject = GameObject.Find("Player").GetComponent<Inventory>();
+            int boxWidth = 500;
+            int titleWidth = 200;
+            int titleHeight = 30;
+            int y = 0;
+            r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
             GUI.Box(r, "Inventory");
             y++;
-            Inventory inventoryObject = GameObject.Find("Player").GetComponent<Inventory>();
             foreach (Pickups p in inventoryObject.inventoryList)
             {
-                r = new Rect(0, Screen.height - 20 * y, 100, 20);
-                GUI.Box(r, p.getName());
+                r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
+                if (GUI.Button(r, p.getName()))
+                {
+                    AudioSource source = GameObject.Find("Player").GetComponent<AudioSource>();
+                    source.Stop();
+                    description = ((DocPickup)p).getText();
+                    ((DocPickup)p).playAudio();
+                }
                 y++;
             }
+            GUI.skin.box.wordWrap = true;
+            r = new Rect((Screen.width - boxWidth) / 2, 40, boxWidth, (Screen.height - 200));
+            GUI.Box(r, description);
         }
     }
     // Update is called once per frame
     void Update () {
         if (Input.GetKeyDown(KeyCode.I)) {
             showInventoryScreen = !showInventoryScreen;
+            if (showInventoryScreen == false)
+            {
+                Inventory inventoryObject = GameObject.Find("Player").GetComponent<Inventory>();
+                AudioSource source = GameObject.Find("Player").GetComponent<AudioSource>();
+                source.Stop();
+            }
         }
 	}
 }

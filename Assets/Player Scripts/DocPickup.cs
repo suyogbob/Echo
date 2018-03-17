@@ -7,6 +7,8 @@ public class DocPickup : MonoBehaviour, Pickups {
     public String name;
     public String text;
     public IPower powerScript;
+    bool playingAudio = false;
+    public AudioClip audioLog;
     public DocPickup(String name, String text, IPower powerScript)
     {
         this.text = text;
@@ -15,14 +17,21 @@ public class DocPickup : MonoBehaviour, Pickups {
     }
     public string getName()
     {
-        return "[Document: "+name+"]";
+        return name;
     }
-
+    public string getText() {
+        return text;
+    }
     public bool isUnique()
     {
         return true;
     }
-
+    public void playAudio() {
+        Debug.Log("[" + getName() + "] "+"Starting Audio");
+        playingAudio = true;
+        AudioSource source = GameObject.Find("Player").GetComponent<AudioSource>();
+        source.PlayOneShot(audioLog);
+    }
     public void onPickup()
     {
         Destroy(gameObject);
