@@ -72,7 +72,7 @@ public class Movement : MonoBehaviour, IPower
 			rb2d.AddForce(move);
 		}
 		//on space press, do jump. only if standing on a platform
-		if (Input.GetKeyDown(KeyCode.Space) && (platform != null))
+		if (Input.GetKeyDown(KeyCode.W) && (platform != null))
 		{
 			//jump
 			Vector2 move = new Vector2(0, 1) * jumpStrength;

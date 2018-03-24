@@ -72,7 +72,7 @@ public class Flashlight : MonoBehaviour, IPower
 		}
 
 		//handle key presses
-		if (Input.GetKey(KeyCode.F))
+		if (Input.GetKey(KeyCode.Space))
 		{
 			playerLight.intensity = 5f;
 

@@ -52,7 +52,7 @@ public class Echo : MonoBehaviour, IPower
 	protected virtual bool createBalls(float radStart, float radEnd)
 	{
 		//detect keypress
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			//the balls implement a doubly linked list
 			//so we an remove them by looping through the
