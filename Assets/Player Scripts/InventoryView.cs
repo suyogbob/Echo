@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryView : MonoBehaviour {
-    bool showInventoryScreen = false;
+    public bool showInventoryScreen = false;
     string description = "Please select a document to look at";
     // Use this for initialization
     void Start () {

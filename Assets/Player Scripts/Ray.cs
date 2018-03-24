@@ -37,8 +37,9 @@ public class Ray : Echo
 	public override void init()
 	{
 		pointerRenderer = GameObject.Find("pointer").GetComponent<SpriteRenderer>();
+        pointerRenderer.sprite = null;
 		pointerTransform = GameObject.Find("pointer").GetComponent<Transform>();
-		pointerTransform.position = new Vector3 (player.transform.position.x + 3, player.transform.position.y, 0);
+		pointerTransform.position = new Vector3 (player.transform.position.x + 3, player.transform.position.y, -1);
 	}
 
 	//ray tick override echo tick

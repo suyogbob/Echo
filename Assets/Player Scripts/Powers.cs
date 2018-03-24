@@ -21,6 +21,8 @@ public class Powers : MonoBehaviour {
 	private IPower currentPower;
 	//current accumulated cooldown
 	private float cooldown;
+
+    private InventoryView inv;
     /// <summary>
     /// Used by the inventory script to add PowerPickups' 
     /// powerScript attributes to the list of powers that can be used.
@@ -32,6 +34,7 @@ public class Powers : MonoBehaviour {
         newPower.init();
         powersList.AddLast(newPower);
         Debug.Log("Finished Adding " + newPower.ToString());
+        inv = player.GetComponent<InventoryView>();
         
     }
     void Start()
@@ -95,6 +98,8 @@ public class Powers : MonoBehaviour {
     }
 	//hanlde swapping
     void Update() {
+        if (inv.showInventoryScreen)
+            return;
         //movement is always power 0. only switch to movement if not already there
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.LeftShift) && (!currentPower.getName().Equals("Movement"))))
         {
