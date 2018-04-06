@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour {
 
 	//which (if any) is the currently activated checkpoint.
 	public GameObject currentCheckpoint;
-    
+
 	//player reference
 	private GameObject player;
 	//list of all moving platforms (so they can reset on player death)
@@ -23,6 +23,8 @@ public class LevelManager : MonoBehaviour {
 	void Start () {
         //create reference
 		player = GameObject.FindWithTag("Player");
+		// make platforms invisibile
+		makeInvis();
 		//make sure the movers list is defined if there are no movers
 		if (movers == null)
 			movers = new List<MovingPlatform> ();
@@ -38,10 +40,10 @@ public class LevelManager : MonoBehaviour {
 		//add to list
 		movers.Add (m);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	//public-facing method to trigger respawn
@@ -52,6 +54,15 @@ public class LevelManager : MonoBehaviour {
 		foreach (MovingPlatform m in movers) {
 			m.reset ();
 		}
-			
+
     }
+
+		//method to make invisibile platforms invisibile
+		private void makeInvis() {
+			GameObject[] invis = GameObject.FindGameObjectsWithTag("Invisible");
+			foreach(GameObject g in invis) {
+				g.GetComponent<SpriteRenderer>().sprite = null;
+				g.GetComponent<SpriteRenderer>().color = Color.white;
+			}
+		}
 }
