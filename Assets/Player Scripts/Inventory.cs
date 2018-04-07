@@ -1,8 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour {
+    public AudioClip movementAudioLog;
+    public String movementText;
+    public AudioClip circularAudioLog;
+    public String circularText;
+    public AudioClip rayAudioLog;
+    public String rayText;
+    public AudioClip flashlightAudioLog;
+    public String flashlightText;
     HashSet<PowerPickups> activePowers = new HashSet<PowerPickups>();
     public HashSet<Pickups> inventoryList = new HashSet<Pickups>();
     Powers powerManager;
@@ -64,8 +73,8 @@ public class Inventory : MonoBehaviour {
         }
         else {
             Debug.Log("Adding Inventory Item " + p.getName());
-            inventoryList.Add(p);
         }
+        inventoryList.Add(p);
     }
     /*
     void OnGUI()
@@ -104,18 +113,18 @@ public class Inventory : MonoBehaviour {
         {
             if (p.getName().Equals("Circular"))
             {
-                newInventory.Add(new PowerPickups("Circular", GameObject.Find("Player").GetComponent<Echo>()));
+                newInventory.Add(new PowerPickups("Circular", GameObject.Find("Player").GetComponent<Echo>(), circularAudioLog, circularText));
             }
             else if (p.getName().Equals("Movement")) {
-                newInventory.Add(new PowerPickups("Movement", GameObject.Find("Player").GetComponent<Movement>()));
+                newInventory.Add(new PowerPickups("Movement", GameObject.Find("Player").GetComponent<Movement>(),movementAudioLog, movementText));
             }
             else if (p.getName().Equals("Flashlight"))
             {
-                newInventory.Add(new PowerPickups("Flashlight", GameObject.Find("Player").GetComponent<Flashlight>()));
+                newInventory.Add(new PowerPickups("Flashlight", GameObject.Find("Player").GetComponent<Flashlight>(), flashlightAudioLog, flashlightText));
             }
             else if (p.getName().Equals("Ray"))
             {
-                newInventory.Add(new PowerPickups("Ray", GameObject.Find("Player").GetComponent<Ray>()));
+                newInventory.Add(new PowerPickups("Ray", GameObject.Find("Player").GetComponent<Ray>(), rayAudioLog, rayText));
             }
             else
             {
@@ -127,7 +136,7 @@ public class Inventory : MonoBehaviour {
         IPower movementScript = GameObject.Find("Player").GetComponent<Movement>();
         Debug.Log("Starting Inventory");
         Debug.Log("Movement scripts name : " + movementScript.getName());
-        PowerPickups movementPickup = new PowerPickups("Movement", movementScript);
+        PowerPickups movementPickup = new PowerPickups("Movement", movementScript, movementAudioLog, movementText);
         addToPowerSet(movementPickup);
 	}
     void Update()

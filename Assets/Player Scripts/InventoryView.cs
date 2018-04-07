@@ -29,8 +29,8 @@ public class InventoryView : MonoBehaviour {
                 {
                     AudioSource source = GameObject.Find("Player").GetComponent<AudioSource>();
                     source.Stop();
-                    description = ((DocPickup)p).getText();
-                    ((DocPickup)p).playAudio();
+                    description = p.getText();
+                    p.playAudio();
                 }
                 y++;
             }

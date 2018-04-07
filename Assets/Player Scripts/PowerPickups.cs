@@ -7,9 +7,13 @@ public class PowerPickups : MonoBehaviour, Pickups
 {
     public String name;
     public IPower powerScript;
-    public PowerPickups(String name, IPower powerScript) {
+    public AudioClip audioLog;
+    public String text;
+    public PowerPickups(String name, IPower powerScript, AudioClip audioLog, String text) {
         this.name = name;
         this.powerScript = powerScript;
+        this.text = text;
+        this.audioLog = audioLog;
     }
     public string getName()
     {
@@ -40,5 +44,17 @@ public class PowerPickups : MonoBehaviour, Pickups
             Debug.Log("Picking up " + getName());
             onPickup();
         }
+    }
+
+    public string getText()
+    {
+        return text;
+    }
+
+    public void playAudio()
+    {
+        Debug.Log("[" + getName() + "] " + "Starting Audio");
+        AudioSource source = GameObject.Find("Player").GetComponent<AudioSource>();
+        source.PlayOneShot(audioLog);
     }
 }

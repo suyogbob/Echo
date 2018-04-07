@@ -25,4 +25,7 @@ public interface Pickups
     /// <author>Chris Foley</author>
     /// <returns>A name for the pickup class.</returns>
     string getName();
+    string getText();
+    void playAudio();
+
 }
