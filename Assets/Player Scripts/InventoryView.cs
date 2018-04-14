@@ -43,10 +43,12 @@ public class InventoryView : MonoBehaviour {
             //Draw Play Button
             r = new Rect((Screen.width + boxWidth) / 2 - 50, Screen.height - 160 - 30, 50, 30);
             char playChar = '\u25B6';
-            if (GUI.Button(r, playChar.ToString())) {
-                source = GameObject.Find("Player").GetComponent<AudioSource>();
-                source.Stop();
-                if(p != null) p.playAudio();
+            if(p != null) {
+                if (GUI.Button(r, playChar.ToString())) {
+                    source = GameObject.Find("Player").GetComponent<AudioSource>();
+                    source.Stop();
+                    p.playAudio();
+                }
             }
         }
     }
