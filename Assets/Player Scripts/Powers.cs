@@ -98,6 +98,8 @@ public class Powers : MonoBehaviour {
     }
 	//hanlde swapping
     void Update() {
+        if (inv == null)
+            inv = player.GetComponent<InventoryView>();
         if (inv.showInventoryScreen)
             return;
         //movement is always power 0. only switch to movement if not already there

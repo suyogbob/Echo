@@ -7,6 +7,7 @@ public class InventoryView : MonoBehaviour {
     AudioSource source;
     string description = "Please select a document to look at";
     Pickups p;
+    public Vector2 scrollPosition;
     // Use this for initialization
     void Start () {
         showInventoryScreen = false;
@@ -24,18 +25,22 @@ public class InventoryView : MonoBehaviour {
             r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
             GUI.Box(r, "Inventory");
             y++;
+
+            //scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(titleWidth), GUILayout.Height((Screen.height - 200)));
             foreach (Pickups p in inventoryObject.inventoryList)
             {
-                r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
-                if (GUI.Button(r, p.getName()))
-                {
-                    source = GameObject.Find("Player").GetComponent<AudioSource>();
-                    source.Stop();
-                    description = p.getText();
-                    this.p = p;
+                if(40 + titleHeight * y < 40 + (Screen.height - 200)) { 
+                    r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
+                    if (GUI.Button(r, p.getName()))
+                    {
+                        source.Stop();
+                        description = p.getText();
+                        this.p = p;
+                    }
+                    y++;
                 }
-                y++;
             }
+            //GUILayout.EndScrollView();
             GUI.skin.box.wordWrap = true;
             r = new Rect((Screen.width - boxWidth) / 2, 40, boxWidth, (Screen.height - 200));
             GUI.Box(r, description);
