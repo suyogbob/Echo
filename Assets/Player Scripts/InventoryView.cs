@@ -33,6 +33,7 @@ public class InventoryView : MonoBehaviour {
                     r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
                     if (GUI.Button(r, p.getName()))
                     {
+                        source = GameObject.Find("Player").GetComponent<AudioSource>();
                         source.Stop();
                         description = p.getText();
                         this.p = p;
