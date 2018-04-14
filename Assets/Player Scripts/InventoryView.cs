@@ -16,6 +16,7 @@ public class InventoryView : MonoBehaviour {
     void OnGUI()
     {
         if (showInventoryScreen) {
+            GUI.color = new Color(1f, 1f, 1f, 2f);
             Rect r;
             Inventory inventoryObject = GameObject.Find("Player").GetComponent<Inventory>();
             int boxWidth = 500;

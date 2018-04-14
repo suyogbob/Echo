@@ -113,6 +113,7 @@ public class Inventory : MonoBehaviour {
         {
             if (p.getName().Equals("Circular"))
             {
+                //PowerPickups circular = GameObject.Find("Circular");
                 newInventory.Add(new PowerPickups("Circular", GameObject.Find("Player").GetComponent<Echo>(), circularAudioLog, circularText));
             }
             else if (p.getName().Equals("Movement")) {
