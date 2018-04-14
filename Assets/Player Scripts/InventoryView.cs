@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class InventoryView : MonoBehaviour {
     public bool showInventoryScreen = false;
+    AudioSource source;
     string description = "Please select a document to look at";
+    Pickups p;
     // Use this for initialization
     void Start () {
         showInventoryScreen = false;
@@ -27,16 +29,25 @@ public class InventoryView : MonoBehaviour {
                 r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
                 if (GUI.Button(r, p.getName()))
                 {
-                    AudioSource source = GameObject.Find("Player").GetComponent<AudioSource>();
+                    source = GameObject.Find("Player").GetComponent<AudioSource>();
                     source.Stop();
                     description = p.getText();
-                    p.playAudio();
+                    this.p = p;
                 }
                 y++;
             }
             GUI.skin.box.wordWrap = true;
             r = new Rect((Screen.width - boxWidth) / 2, 40, boxWidth, (Screen.height - 200));
             GUI.Box(r, description);
+
+            //Draw Play Button
+            r = new Rect((Screen.width + boxWidth) / 2 - 50, Screen.height - 160 - 30, 50, 30);
+            char playChar = '\u25B6';
+            if (GUI.Button(r, playChar.ToString())) {
+                source = GameObject.Find("Player").GetComponent<AudioSource>();
+                source.Stop();
+                if(p != null) p.playAudio();
+            }
         }
     }
     // Update is called once per frame
