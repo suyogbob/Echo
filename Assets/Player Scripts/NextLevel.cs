@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
@@ -11,9 +9,13 @@ public class NextLevel : MonoBehaviour {
 
 	/* CONFIGURATIONS*/
 	//player reference
-    private GameObject player;
+    public GameObject player;
 	//name of level to load
 	public string levelToLoad;
+
+    public bool customTarget = false;
+    public int targetX = 0;
+    public int targetY = 0;
 
 	/* INTERNAL */
 	//light source
@@ -21,20 +23,34 @@ public class NextLevel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Debug.Log("HELLOOOO");
 		//setup referendes
-		spot = GameObject.Find("Spotlight").GetComponent<Light> ();
-		spot.transform.localPosition = new Vector2 (0f, 1.5f);
+		//spot = GameObject.Find("Spotlight").GetComponent<Light> ();
+		//spot.transform.localPosition = new Vector2 (0f, 1.5f);
+        Debug.Log("test");
         player = GameObject.FindWithTag("Player");
+        Debug.Log(player);
 	}
 	
 	// Update is called once per frame
 	void OnTriggerEnter2D(Collider2D diamondCollider) {
+        Debug.Log(",,,");
+        Debug.Log(diamondCollider);
+        Debug.Log(diamondCollider.gameObject);
+        Debug.Log(diamondCollider.gameObject.tag);
+        Debug.Log(player);
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (diamondCollider.gameObject.tag == player.tag)
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
             Inventory script = GameObject.Find("Player").GetComponent<Inventory>();
             script.saveInventory();
+            if(customTarget)
+            {
+                PlayerPrefs.SetInt("position_save", 1);
+                PlayerPrefs.SetInt("x", targetX);
+                PlayerPrefs.SetInt("y", targetY);
+            }
             SceneManager.LoadScene(levelToLoad);
         }
 	}
