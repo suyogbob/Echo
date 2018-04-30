@@ -14,8 +14,8 @@ public class NextLevel : MonoBehaviour {
 	public string levelToLoad;
 
     public bool customTarget = false;
-    public int targetX = 0;
-    public int targetY = 0;
+	public float targetX = 0;
+    public float targetY = 0;
 
 	/* INTERNAL */
 	//light source
