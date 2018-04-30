@@ -102,6 +102,10 @@ public class Powers : MonoBehaviour {
             inv = player.GetComponent<InventoryView>();
         if (inv.showInventoryScreen)
             return;
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Debug.Log("Quitting...");
+            Application.Quit();
+        }
         //movement is always power 0. only switch to movement if not already there
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.LeftShift) && (!currentPower.getName().Equals("Movement"))))
         {
