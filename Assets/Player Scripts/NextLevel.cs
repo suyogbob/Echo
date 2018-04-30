@@ -14,8 +14,8 @@ public class NextLevel : MonoBehaviour {
 	public string levelToLoad;
 
     public bool customTarget = false;
-    public int targetX = 0;
-    public int targetY = 0;
+	public float targetX = 0;
+    public float targetY = 0;
 
 	/* INTERNAL */
 	//light source
@@ -40,8 +40,8 @@ public class NextLevel : MonoBehaviour {
             if(customTarget)
             {
                 PlayerPrefs.SetInt("position_save", 1);
-                PlayerPrefs.SetInt("x", targetX);
-                PlayerPrefs.SetInt("y", targetY);
+                PlayerPrefs.SetFloat("x", targetX);
+                PlayerPrefs.SetFloat("y", targetY);
             }
             SceneManager.LoadScene(levelToLoad);
         }
