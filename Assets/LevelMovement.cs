@@ -10,7 +10,7 @@ public class LevelMovement : MonoBehaviour {
 	    if (PlayerPrefs.GetInt("position_save") == 1)
         {
             PlayerPrefs.DeleteKey("position_save");
-            transform.position = new Vector2(PlayerPrefs.GetInt("x"), PlayerPrefs.GetInt("y"));
+            transform.position = new Vector2(PlayerPrefs.GetFloat("x"), PlayerPrefs.GetFloat("y"));
         }
 
 	}

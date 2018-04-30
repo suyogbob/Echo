@@ -40,8 +40,8 @@ public class NextLevel : MonoBehaviour {
             if(customTarget)
             {
                 PlayerPrefs.SetInt("position_save", 1);
-                PlayerPrefs.SetInt("x", targetX);
-                PlayerPrefs.SetInt("y", targetY);
+                PlayerPrefs.SetFloat("x", targetX);
+                PlayerPrefs.SetFloat("y", targetY);
             }
             SceneManager.LoadScene(levelToLoad);
         }
