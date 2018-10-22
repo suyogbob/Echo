@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InventoryView : MonoBehaviour {
     public bool showInventoryScreen = false;
@@ -30,7 +31,7 @@ public class InventoryView : MonoBehaviour {
             //scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(titleWidth), GUILayout.Height((Screen.height - 200)));
             foreach (Pickups p in inventoryObject.inventoryList)
             {
-                if(40 + titleHeight * y < 40 + (Screen.height - 200)) { 
+                if(40 + titleHeight * y < 40 + (Screen.height - 200)) {
                     r = new Rect((Screen.width - boxWidth) / 2 - titleWidth, 40 + titleHeight * y, titleWidth, titleHeight);
                     if (GUI.Button(r, p.getName()))
                     {
@@ -56,6 +57,12 @@ public class InventoryView : MonoBehaviour {
                     source.Stop();
                     p.playAudio();
                 }
+            }
+
+            if(GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50),"Save"))
+            {
+                Transform t = GameObject.Find("Player").GetComponent<Transform>();
+                Title.save(SceneManager.GetActiveScene().path,t.position.x,t.position.y);
             }
         }
     }
