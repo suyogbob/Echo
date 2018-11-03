@@ -7,7 +7,7 @@ using System.Collections;
  * Also updates the player on moving platforms.
  * Counts as a power because of reasons.
  */
-public class Movement : MonoBehaviour, IPower 
+public class Movement : MonoBehaviour, IPower
 {
 	//player's location
 	private Transform transform;
@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour, IPower
 		//add the moving velocity to the existing velocity.
 		//Note: this is because the velocity is reset every frame.
 		float moveHorizontal = Input.GetAxis("Horizontal");
-		Vector2 movement = rb2d.velocity + moveHorizontal * speed * Vector2.right; 
+		Vector2 movement = rb2d.velocity + moveHorizontal * speed * Vector2.right;
 		rb2d.velocity = movement;
 		//on S press, do downwards push
 		if (Input.GetKey(KeyCode.S))
@@ -125,5 +125,18 @@ public class Movement : MonoBehaviour, IPower
 		}
 		rb2d.velocity = new Vector2(platSpeed, rb2d.velocity.y);
 	}
+
+    void OnLevelWasLoaded()
+    {
+        Debug.Log("loaded level on player end!");
+        if(Title.g_save != null)
+        {
+            float x = Title.g_save.x;
+            float y = Title.g_save.y;
+            Title.g_save = null;
+            Transform t = GetComponent<Transform>();
+            t.position = new Vector2(x,y);
+        }
+    }
 
 }
