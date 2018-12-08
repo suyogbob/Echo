@@ -32,7 +32,7 @@ public class Title : MonoBehaviour {
 
             GUI.enabled = File.Exists(Path.Combine(Application.persistentDataPath,"test.sav"));
 
-            if(GUI.Button(new Rect(Screen.width / 2 - 50,Screen.height/2 + 50,100,50),  "Load Game"))
+            if(GUI.Button(new Rect(Screen.width / 2 - 50,Screen.height/2 + 10,100,50),  "Load Game"))
             {
 
                 BinaryFormatter f = new BinaryFormatter();
@@ -57,6 +57,10 @@ public class Title : MonoBehaviour {
 
             GUI.enabled = true;
 
+            if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 70, 100, 50), "Controls"))
+            {
+            SceneManager.LoadScene("options");
+            }
     }
 
     public static void save(String level,float x,float y)
