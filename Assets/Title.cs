@@ -63,17 +63,19 @@ public class Title : MonoBehaviour {
             }
     }
 
-    public static void save(String level,float x,float y)
+    public static void save(string level,float x,float y, LinkedList<string> p)
     {
         Debug.Log("hi");
         Save save = new Save();
         save.level = level;
         save.x = x;
         save.y = y;
-        Debug.Log("pos");
-        Debug.Log(x);
-        Debug.Log(y);
+        save.powers = p;
 
+        foreach(string po in p)
+            Debug.Log("power " + po);
+
+            Debug.Log(Application.persistentDataPath);
         BinaryFormatter f = new BinaryFormatter();
         using (FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath,"test.sav"), FileMode.Create))
         {
@@ -93,7 +95,9 @@ public class Title : MonoBehaviour {
 [Serializable]
 public class Save
 {
-    public String level;
+    public string level;
 
     public float x,y;
+
+    public LinkedList<string> powers;
 }

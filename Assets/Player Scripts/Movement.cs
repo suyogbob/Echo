@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /*
  * Manages all movement capabilities
@@ -125,18 +126,5 @@ public class Movement : MonoBehaviour, IPower
 		}
 		rb2d.velocity = new Vector2(platSpeed, rb2d.velocity.y);
 	}
-
-    void OnLevelWasLoaded()
-    {
-        Debug.Log("loaded level on player end!");
-        if(Title.g_save != null)
-        {
-            float x = Title.g_save.x;
-            float y = Title.g_save.y;
-            Title.g_save = null;
-            Transform t = GetComponent<Transform>();
-            t.position = new Vector2(x,y);
-        }
-    }
 
 }

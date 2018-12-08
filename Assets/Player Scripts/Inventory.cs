@@ -15,10 +15,10 @@ public class Inventory : MonoBehaviour {
     HashSet<PowerPickups> activePowers = new HashSet<PowerPickups>();
     public HashSet<Pickups> inventoryList = new HashSet<Pickups>();
     Powers powerManager;
-    int getPowerSetSize() {
+    public int getPowerSetSize() {
         return activePowers.Count;
     }
-    PowerPickups getPowerPickupAt(int index) {
+    public PowerPickups getPowerPickupAt(int index) {
         if( index >= getPowerSetSize()) return null;
         int count = 0;
         foreach (PowerPickups p in activePowers) {
@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour {
         }
         return null;
     }
-    void addToPowerSet(PowerPickups powers) {
+    public void addToPowerSet(PowerPickups powers) {
         bool found = false;
         foreach (PowerPickups p in activePowers) {
             if (p.getName().Equals(powers.getName())) found = true;
@@ -68,7 +68,7 @@ public class Inventory : MonoBehaviour {
     public void HandlePickup(Pickups p) {
         if (p is PowerPickups)
         {
-            Debug.Log("Adding Power: " + p.getName()); 
+            Debug.Log("Adding Power: " + p.getName());
             addToPowerSet((PowerPickups) p);
         }
         else {
@@ -139,6 +139,28 @@ public class Inventory : MonoBehaviour {
         Debug.Log("Movement scripts name : " + movementScript.getName());
         PowerPickups movementPickup = new PowerPickups("Movement", movementScript, movementAudioLog, movementText);
         addToPowerSet(movementPickup);
+
+
+            Debug.Log("loaded level on player end!");
+            if(Title.g_save != null)
+            {
+                float x = Title.g_save.x;
+                float y = Title.g_save.y;
+                LinkedList<string> powers = Title.g_save.powers;
+                Title.g_save = null;
+                Transform t = GetComponent<Transform>();
+                t.position = new Vector2(x,y);
+                Inventory i = GameObject.Find("Player").GetComponent<Inventory>();
+                foreach(string p in powers)
+                {
+                    i.addToPowerSet(new PowerPickups(p, GameObject.Find("Player").GetComponent(p) as IPower, null, null));
+                    GameObject pickup = GameObject.Find(p);
+                    if(pickup != null)
+                    {
+                        Destroy(pickup);
+                    }
+                }
+            }
 	}
     void Update()
     {
@@ -161,4 +183,5 @@ public class Inventory : MonoBehaviour {
         tempInventory.powerPickup = activePowers;
         tempInventory.inventoryPickup = inventoryList;
 	}
+
 }

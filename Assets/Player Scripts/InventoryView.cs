@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -62,7 +63,14 @@ public class InventoryView : MonoBehaviour {
             if(GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50),"Save"))
             {
                 Transform t = GameObject.Find("Player").GetComponent<Transform>();
-                Title.save(SceneManager.GetActiveScene().path,t.position.x,t.position.y);
+                Inventory inv = GameObject.Find("Player").GetComponent<Inventory>();
+                int size = inv.getPowerSetSize();
+                LinkedList<string> powerNames = new LinkedList<string>();
+                for(int i = 0; i < size; i++)
+                {
+                    powerNames.AddLast(inv.getPowerPickupAt(i).name);
+                }
+                Title.save(SceneManager.GetActiveScene().path,t.position.x,t.position.y,powerNames);
             }
         }
     }
