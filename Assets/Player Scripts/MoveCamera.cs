@@ -23,27 +23,29 @@ public class MoveCamera : MonoBehaviour {
 		MoveDirection();
 	}
 
+//note to Suyog: Player GetComponent<LevelManager> doesn't work. commented out until we can get this to work --Alex
+
 	void MoveDirection() {
 		// move camera to the right , elseif - move camera to the left
         if (playerPosition.position.x > cameraPosition.position.x + cameraWidth / 2 + 1.5f) {
 			cameraPosition.position = new Vector3(cameraPosition.position.x + cameraWidth + 1.5f,
 			cameraPosition.position.y, cameraPosition.position.z);
-			player.GetComponent<LevelManager>().x_position += 1;
+//			player.GetComponent<LevelManager>().x_position += 1;
 		} else if (playerPosition.position.x < cameraPosition.position.x - cameraWidth / 2 - 1.5f) {
 			cameraPosition.position = new Vector3(cameraPosition.position.x - cameraWidth - 1.5f,
 			cameraPosition.position.y, cameraPosition.position.z);
-			player.GetComponent<LevelManager>().x_position -= 1;
+//			player.GetComponent<LevelManager>().x_position -= 1;
 		}
 
 		// move camera up , elseif - move camera down
 		if (playerPosition.position.y > cameraPosition.position.y + cameraHeight / 2 + 1.5f) {
 			cameraPosition.position = new Vector3(cameraPosition.position.x,
 				cameraPosition.position.y + cameraHeight + 1.5f, cameraPosition.position.z);
-			player.GetComponent<LevelManager>().y_position += 1;
+//			player.GetComponent<LevelManager>().y_position += 1;
 		} else if (playerPosition.position.y < cameraPosition.position.y - cameraHeight / 2 - 1.5f) {
 			cameraPosition.position = new Vector3(cameraPosition.position.x,
 				cameraPosition.position.y - cameraHeight - 1.5f, cameraPosition.position.z);
-			player.GetComponent<LevelManager>().y_position -= 1;
+//			player.GetComponent<LevelManager>().y_position -= 1;
 		}
 
 
