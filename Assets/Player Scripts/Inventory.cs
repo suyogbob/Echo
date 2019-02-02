@@ -9,9 +9,11 @@ public class Inventory : MonoBehaviour {
     public AudioClip circularAudioLog;
     public String circularText;
     public AudioClip rayAudioLog;
-    public String rayText;
-    public AudioClip flashlightAudioLog;
-    public String flashlightText;
+	public String rayText;
+	public AudioClip flashlightAudioLog;
+	public String flashlightText;
+	public AudioClip atiumAudioLog;
+	public String atiumText;
     HashSet<PowerPickups> activePowers = new HashSet<PowerPickups>();
     public HashSet<Pickups> inventoryList = new HashSet<Pickups>();
     Powers powerManager;
@@ -35,21 +37,19 @@ public class Inventory : MonoBehaviour {
             if (p.getName().Equals(powers.getName())) found = true;
         }
         if (!found) {
-            if (powers.getName().Equals("Circular"))
-            {
-                Debug.Log("Circular");
-                powers.powerScript = GameObject.Find("Player").GetComponent<Echo>();
-            }
-            else if (powers.getName().Equals("Flashlight"))
-            {
-                Debug.Log("Flashlight");
-                powers.powerScript = GameObject.Find("Player").GetComponent<Flashlight>();
-            }
-            else if (powers.getName().Equals("Ray"))
-            {
-                Debug.Log("Ray");
-                powers.powerScript = GameObject.Find("Player").GetComponent<Ray>();
-            }
+			if (powers.getName ().Equals ("Circular")) {
+				Debug.Log ("Circular");
+				powers.powerScript = GameObject.Find ("Player").GetComponent<Echo> ();
+			} else if (powers.getName ().Equals ("Flashlight")) {
+				Debug.Log ("Flashlight");
+				powers.powerScript = GameObject.Find ("Player").GetComponent<Flashlight> ();
+			} else if (powers.getName ().Equals ("Ray")) {
+				Debug.Log ("Ray");
+				powers.powerScript = GameObject.Find ("Player").GetComponent<Ray> ();
+			} else if (powers.getName ().Equals ("Atium")) {
+				Debug.Log ("Atium");
+				powers.powerScript = GameObject.Find ("Player").GetComponent<Atium> ();
+			}
             else {
                 Debug.Log("Not changing powerScript");
             }
@@ -111,22 +111,18 @@ public class Inventory : MonoBehaviour {
         HashSet<PowerPickups> newInventory = new HashSet<PowerPickups>();
         foreach(PowerPickups p in oldInventory)
         {
-            if (p.getName().Equals("Circular"))
-            {
-                //PowerPickups circular = GameObject.Find("Circular");
-                newInventory.Add(new PowerPickups("Circular", GameObject.Find("Player").GetComponent<Echo>(), circularAudioLog, circularText));
-            }
-            else if (p.getName().Equals("Movement")) {
-                newInventory.Add(new PowerPickups("Movement", GameObject.Find("Player").GetComponent<Movement>(),movementAudioLog, movementText));
-            }
-            else if (p.getName().Equals("Flashlight"))
-            {
-                newInventory.Add(new PowerPickups("Flashlight", GameObject.Find("Player").GetComponent<Flashlight>(), flashlightAudioLog, flashlightText));
-            }
-            else if (p.getName().Equals("Ray"))
-            {
-                newInventory.Add(new PowerPickups("Ray", GameObject.Find("Player").GetComponent<Ray>(), rayAudioLog, rayText));
-            }
+			if (p.getName ().Equals ("Circular")) {
+				//PowerPickups circular = GameObject.Find("Circular");
+				newInventory.Add (new PowerPickups ("Circular", GameObject.Find ("Player").GetComponent<Echo> (), circularAudioLog, circularText));
+			} else if (p.getName ().Equals ("Movement")) {
+				newInventory.Add (new PowerPickups ("Movement", GameObject.Find ("Player").GetComponent<Movement> (), movementAudioLog, movementText));
+			} else if (p.getName ().Equals ("Flashlight")) {
+				newInventory.Add (new PowerPickups ("Flashlight", GameObject.Find ("Player").GetComponent<Flashlight> (), flashlightAudioLog, flashlightText));
+			} else if (p.getName ().Equals ("Ray")) {
+				newInventory.Add (new PowerPickups ("Ray", GameObject.Find ("Player").GetComponent<Ray> (), rayAudioLog, rayText));
+			} else if (p.getName ().Equals ("Atium")) {
+				newInventory.Add (new PowerPickups ("Atium", GameObject.Find ("Player").GetComponent<Atium> (), atiumAudioLog, atiumText));
+			}
             else
             {
                 Debug.Log("Temp Inventory Loading Error");

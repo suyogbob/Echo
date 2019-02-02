@@ -63,7 +63,7 @@ public class Movement : MonoBehaviour, IPower
 		//add the moving velocity to the existing velocity.
 		//Note: this is because the velocity is reset every frame.
 		float moveHorizontal = Input.GetAxis("Horizontal");
-		Vector2 movement = rb2d.velocity + moveHorizontal * speed * Vector2.right;
+		Vector2 movement = rb2d.velocity + moveHorizontal * 8 * Vector2.right;
 		rb2d.velocity = movement;
 		//on S press, do downwards push
 		if (Input.GetKey(KeyCode.S))
